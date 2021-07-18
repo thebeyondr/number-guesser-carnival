@@ -19,7 +19,7 @@ const { expect } = require('chai');
 //     });
 // });
 
-describe('Add By Guess', function () {
+describe('Guess By Adding', function () {
     it('Should add to the current guess', async function () {
         const Guesser = await ethers.getContractFactory('Guesser');
         const guesser = await Guesser.deploy();

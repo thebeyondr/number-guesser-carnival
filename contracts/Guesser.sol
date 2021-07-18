@@ -6,19 +6,12 @@ import "hardhat/console.sol";
 contract Guesser {
     uint8 guess;
 
-    event Added(uint8 number);
-
-    constructor() {
-        guess = 0;
-    }
-
     function getGuess() public view returns (uint8) {
         return guess;
     }
 
     function guessByAdd(uint8 _numToAdd) public {
         guess = guess + _numToAdd;
-        console.log("Added", _numToAdd);
     }
 
     function guessBySubtract(uint8 _numToSubtract) public {
