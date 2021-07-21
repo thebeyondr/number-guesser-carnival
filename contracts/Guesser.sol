@@ -6,28 +6,38 @@ import "hardhat/console.sol";
 contract Guesser {
     uint8 guess;
 
+    event Added(uint8 value, uint8 guess);
+
     function getGuess() public view returns (uint8) {
         return guess;
     }
 
     function guessByAdd(uint8 _numToAdd) public {
-        guess = guess + _numToAdd;
+        uint8 newGuess = guess + _numToAdd;
+        require(newGuess <= 100, "Guess too high");
+        require(newGuess >= 1, "Guess too low");
+        guess = newGuess;
+        emit Added(_numToAdd, guess);
     }
 
     function guessBySubtract(uint8 _numToSubtract) public {
-        guess = guess - _numToSubtract;
+        uint8 newGuess = guess - _numToSubtract;
+        require(newGuess <= 100, "Guess too high");
+        require(newGuess >= 1, "Guess too low");
+        guess = newGuess;
     }
 
     function guessByMultiply(uint8 _numToMultiply) public {
-        guess = guess + _numToMultiply;
+        uint8 newGuess = guess * _numToMultiply;
+        require(newGuess <= 100, "Guess too high");
+        require(newGuess >= 1, "Guess too low");
+        guess = newGuess;
     }
 
     function guessByDivide(uint8 _numToDivideBy) public {
-        // No zero division craziness 🙅‍♂️
-        if (guess == 0 || _numToDivideBy == 0) {
-            guess = 0;
-        } else {
-            guess = guess / _numToDivideBy;
-        }
+        uint8 newGuess = guess / _numToDivideBy;
+        require(newGuess <= 100, "Guess too high");
+        require(newGuess >= 1, "Guess too low");
+        guess = newGuess;
     }
 }

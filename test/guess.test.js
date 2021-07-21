@@ -19,13 +19,54 @@ const { expect } = require('chai');
 //     });
 // });
 
-describe('Guess By Adding', function () {
-    it('Should add to the current guess', async function () {
-        const Guesser = await ethers.getContractFactory('Guesser');
-        const guesser = await Guesser.deploy();
+// const _getGuesserContract = async () => {
+//     const Guesser = await ethers.getContractFactory('Guesser');
+//     return await Guesser.deploy();
+// };
 
-        await guesser.deployed();
-        await guesser.guessByAdd(23);
-        expect(await guesser.getGuess()).to.equal(23);
+describe('Guesser', function () {
+    let guesser;
+
+    beforeEach(async function () {
+        const Guesser = await ethers.getContractFactory('Guesser');
+        guesser = await Guesser.deploy();
+        return await guesser.deployed();
+    });
+
+    describe('Guess by addition', function () {
+        it('Should add to the current guess', async function () {
+            await guesser.guessByAdd(42);
+            expect(await guesser.getGuess()).to.equal(42);
+        });
+    });
+
+    describe('Guess by subtraction', function () {
+        // it('Should throw for underflow', async function () {
+        //     await guesser.guessByAdd(23);
+        //     await guesser.guessBySubtract(42);
+        //     expect(await guesser.guessBySubtract(42)).to.throw(Error);
+        // });
+
+        it('Should subtract the guess correctly', async function () {
+            await guesser.guessByAdd(23);
+            await guesser.guessBySubtract(2);
+            expect(await guesser.getGuess()).to.equal(21);
+        });
+    });
+
+    describe('Guess by multiplying', function () {
+        it('Should multiply the guess', async function () {
+            await guesser.guessByAdd(1);
+            await guesser.guessByMultiply(42);
+            expect(await guesser.getGuess()).to.equal(42);
+        });
+    });
+
+    describe('Guess by dividing', function () {
+        it('Should divide the guess', async function () {
+            await guesser.guessByAdd(42);
+            await guesser.guessByDivide(2);
+            expect(await guesser.getGuess()).to.equal(21);
+        });
     });
 });
