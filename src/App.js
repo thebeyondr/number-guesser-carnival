@@ -64,7 +64,12 @@ function App() {
                     onChange={(e) => setGuessValue(e.target.value)}
                     placeholder="Enter a value"
                 />
-                <button onClick={guessByAdd}>Add</button>
+                <button
+                    className="bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50"
+                    onClick={guessByAdd}
+                >
+                    Add
+                </button>
                 {/* <button onClick={runGuessOperation('subtract')}>
                     Subtract
                 </button>
