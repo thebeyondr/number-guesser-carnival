@@ -4,13 +4,15 @@ import { ethers } from 'ethers';
 import Guesser from './artifacts/contracts/Guesser.sol/Guesser.json';
 
 const guesserAddress = '0x9E545E3C0baAB3E08CdfD552C960A1050f373042';
-const numberToGuess = Math.floor(Math.random() * (100 - 1) + 1);
 
 function App() {
     const [guesses, setGuesses] = useState([]);
     const [numBy, setNumByValue] = useState('');
     const [_firstGuess, setFirstGuess] = useState(false);
     const [_gameEnded, setGameEnded] = useState(false);
+    const [numberToGuess, setNumberToGuess] = useState(
+        Math.floor(Math.random() * (100 - 1) + 1)
+    );
 
     // Request Metamask access
     async function requestAccount() {
@@ -83,6 +85,8 @@ function App() {
         setGuesses([]);
         setFirstGuess(false);
         setGameEnded(false);
+        setNumByValue('');
+        setNumberToGuess(Math.floor(Math.random() * (100 - 1) + 1));
     }
 
     return (
@@ -114,9 +118,12 @@ function App() {
                 </h3>
                 <input
                     className="border border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent py-1 px-2"
+                    type="text"
+                    value={numBy}
                     disabled={_gameEnded}
                     onChange={(e) => setNumByValue(e.target.value)}
                     placeholder="Enter a value"
+                    autoFocus
                 />
                 <button
                     className="bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 px-8 py-2 text-white disabled:opacity-60"
@@ -125,7 +132,6 @@ function App() {
                 >
                     Add (+)
                 </button>
-
                 <button
                     className="bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 px-8 py-2 text-white disabled:opacity-60"
                     disabled={!_firstGuess || _gameEnded}
@@ -133,7 +139,6 @@ function App() {
                 >
                     Subtract (−)
                 </button>
-
                 <button
                     className="bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 px-8 py-2 text-white disabled:opacity-60"
                     disabled={!_firstGuess || _gameEnded}
@@ -141,7 +146,6 @@ function App() {
                 >
                     Multiply (×)
                 </button>
-
                 <button
                     className="bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 px-8 py-2 text-white disabled:opacity-60"
                     disabled={!_firstGuess || _gameEnded}
@@ -149,13 +153,14 @@ function App() {
                 >
                     Divide (÷)
                 </button>
-                <button
-                    className="bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 px-8 py-2 text-white disabled:opacity-60"
-                    disabled={!_gameEnded}
-                    onClick={() => resetGuess()}
-                >
-                    Reset ↺
-                </button>
+                {_gameEnded && (
+                    <button
+                        className="bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 px-8 py-2 text-white disabled:opacity-60"
+                        onClick={() => resetGuess()}
+                    >
+                        Reset ↺
+                    </button>
+                )}
             </header>
         </div>
     );
