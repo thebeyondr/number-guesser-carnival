@@ -8,6 +8,10 @@ contract Guesser {
 
     event Added(uint8 value, uint8 guess);
 
+    function resetGuess() public {
+        guess = 0;
+    }
+
     function getGuess() public view returns (uint8) {
         return guess;
     }
