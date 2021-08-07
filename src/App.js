@@ -1,9 +1,8 @@
-// import logo from './logo.svg';s
 import { useState } from 'react';
 import { ethers } from 'ethers';
 import Guesser from './artifacts/contracts/Guesser.sol/Guesser.json';
 
-const guesserAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+const guesserAddress = process.env.REACT_APP_GUESSER_ADDRESS; // Make a .env file with your deployed contract address
 
 function App() {
     const [guesses, setGuesses] = useState([]);
@@ -14,14 +13,15 @@ function App() {
     const _guessNum = Math.floor(Math.random() * (100 - 1) + 1);
     const [numberToGuess] = useState(_guessNum);
 
-    // const numberToGuess = Math.floor(Math.random() * (100 - 1) + 1);
-
     // Request Metamask access
     async function requestAccount() {
         await window.ethereum.request({ method: 'eth_requestAccounts' });
     }
 
-    // Get the contract and read the guess
+    /**
+     * Gets the contract and reads the guess
+     * @returns
+     */
     async function fetchGuess() {
         if (typeof window.ethereum === 'undefined') return;
         const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -32,11 +32,14 @@ function App() {
         );
         try {
             const data = await contract.getGuess();
-            console.log(numberToGuess, data);
+
             setGuesses((arr) => [...arr, data]);
             if (_firstGuess === false) setFirstGuess(true);
+
+            // Guess array is behind by 1 when checked
             if (guesses.length === 4 || data === numberToGuess)
                 setGameEnded(true);
+
             updateFeedbackMessage(
                 data < numberToGuess
                     ? 'ℹ That guess was too low! 🔽'
@@ -60,7 +63,11 @@ function App() {
         divide: 'guessByDivide',
     };
 
-    // One guess function to rule them all
+    /**
+     * Performs a math operation on the smart contract
+     * @param {string} type The type of math operation to do on a value
+     * @returns
+     */
     async function guessBy(type) {
         updateFeedbackMessage('');
         if (!numBy) return;
@@ -82,6 +89,9 @@ function App() {
         fetchGuess();
     }
 
+    /**
+     * Resets the game
+     */
     async function resetGuess() {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
@@ -94,25 +104,18 @@ function App() {
         const reset = await contract.resetGuess();
         await reset.wait();
 
-        //reset
+        // State resets
         setGuesses([]);
         setFirstGuess(false);
         setGameEnded(false);
         setNumByValue('');
         updateFeedbackMessage('');
-        // setNumberToGuess(Math.floor(Math.random() * (100 - 1) + 1));
     }
 
     return (
         <div className="App flex justify-center items-top h-screen pt-10 text-gray-200">
             <section className="App-header w-1/3">
                 <h1 className="text-5xl font-bold mb-3">DIS-GUESS-TING</h1>
-                {/* <button
-                    className="bg-white border-4 border-gray-800 hover:bg-purple-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 px-8 py-2"
-                    onClick={() =>}
-                >
-                    +
-                </button> */}
                 <ol className="list-decimal ml-4 mb-4">
                     <li>I've picked a random number 1-100</li>
                     <li>

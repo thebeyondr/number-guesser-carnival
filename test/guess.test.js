@@ -2,28 +2,6 @@
 /* eslint-disable jest/valid-expect */
 const { expect } = require('chai');
 
-// describe('Greeter', function () {
-//     it("Should return the new greeting once it's changed", async function () {
-//         const Greeter = await ethers.getContractFactory('Greeter');
-//         const greeter = await Greeter.deploy('Hello, world!');
-//         await greeter.deployed();
-
-//         expect(await greeter.greet()).to.equal('Hello, world!');
-
-//         const setGreetingTx = await greeter.setGreeting('Hola, mundo!');
-
-//         // wait until the transaction is mined
-//         await setGreetingTx.wait();
-
-//         expect(await greeter.greet()).to.equal('Hola, mundo!');
-//     });
-// });
-
-// const _getGuesserContract = async () => {
-//     const Guesser = await ethers.getContractFactory('Guesser');
-//     return await Guesser.deploy();
-// };
-
 describe('Guesser', function () {
     let guesser;
 
@@ -41,23 +19,17 @@ describe('Guesser', function () {
     });
 
     describe('Guess by subtraction', function () {
-        // it('Should throw for underflow', async function () {
-        //     await guesser.guessByAdd(23);
-        //     await guesser.guessBySubtract(42);
-        //     expect(await guesser.guessBySubtract(42)).to.throw(Error);
-        // });
-
         it('Should subtract the guess correctly', async function () {
-            await guesser.guessByAdd(23);
+            await guesser.guessByAdd(44);
             await guesser.guessBySubtract(2);
-            expect(await guesser.getGuess()).to.equal(21);
+            expect(await guesser.getGuess()).to.equal(42);
         });
     });
 
     describe('Guess by multiplying', function () {
         it('Should multiply the guess', async function () {
-            await guesser.guessByAdd(1);
-            await guesser.guessByMultiply(42);
+            await guesser.guessByAdd(21);
+            await guesser.guessByMultiply(2);
             expect(await guesser.getGuess()).to.equal(42);
         });
     });
