@@ -89,6 +89,34 @@ function App() {
         fetchGuess();
     }
 
+    // async function setWin() {
+    //     if (typeof window.ethereum === 'undefined') return;
+    //     const provider = new ethers.providers.Web3Provider(window.ethereum);
+    //     const signer = provider.getSigner();
+    //     const contract = new ethers.Contract(
+    //         guesserAddress,
+    //         Guesser.abi,
+    //         signer
+    //     );
+
+    //     const win = await contract.setWin();
+    //     await win.wait();
+    // }
+
+    // async function setPlayed() {
+    //     if (typeof window.ethereum === 'undefined') return;
+    //     const provider = new ethers.providers.Web3Provider(window.ethereum);
+    //     const signer = provider.getSigner();
+    //     const contract = new ethers.Contract(
+    //         guesserAddress,
+    //         Guesser.abi,
+    //         signer
+    //     );
+
+    //     const played = await contract.setGamePlayed();
+    //     await played.wait();
+    // }
+
     /**
      * Resets the game
      */
